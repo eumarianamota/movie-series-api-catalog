@@ -1,6 +1,11 @@
 # 🎥 Catalógo Interativo de Filmes e Séries
 O Catálogo Interativo de Filmes e Séries é uma aplicação web desenvolvida para oferecer uma experiência dinâmica e intuitiva de exploração do universo cinematográfico, utilizando a API The Movie Database (TMDb) como fonte principal de dados sobre filmes e séries.
 
+## Integrantes 
+- Maria Rita Lustosa da Silva Nascimento
+- Mariana da Mota Pinho
+- João Marcello Machado Braz
+
 ## Funcionalidades
 
 1.Lançamentos Recentes
