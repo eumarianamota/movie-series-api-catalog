@@ -80,6 +80,15 @@ async function buscarFilmes(tipo, query = "") {
             lista.innerHTML = "<p>Erro ao carregar os dados.</p>";
         }
     }
-    
-    
-}
+
+    searchForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const query = searchInput.value.trim();
+        buscarFilmes("movie", query);
+        buscarFilmes("tv", query);
+});
+
+buscarFilmes("movie");
+buscarFilmes("tv");
+
+});
