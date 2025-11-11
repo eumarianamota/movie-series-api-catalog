@@ -57,7 +57,24 @@ async function buscarFilmes(tipo, query = "") {
             return;
         }
 
-        const resultados = query
+        const resultados = query ? data.results : data.results.slice(0, 5);
+
+        for (const item of resultados){
+            let duration = "N/A";
+
+            if(tipo === "tv"){
+                try{
+                    const responseDetails = await fetch(`${BASE_URL}/tv/${item.id}?api_key=${API_KEY}&language=pt-BR`);
+                    const details = await responseDetails.json();
+                    duration = details.episode_run_time?.lenght ? details.episode_run_time[0] + "min" : "N/A";
+                } catch{
+                    duration = "N/A";
+                }
+                }
+
+                
+            }
+        }
     }
     
 }
