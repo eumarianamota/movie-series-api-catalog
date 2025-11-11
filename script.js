@@ -72,9 +72,14 @@ async function buscarFilmes(tipo, query = "") {
                 }
                 }
 
-                
+                const card = criarCard(item, tipo, duration);
+                lista.appendChild(card);
             }
+        } catch (error){
+            console.error(error);
+            lista.innerHTML = "<p>Erro ao carregar os dados.</p>";
         }
     }
+    
     
 }
