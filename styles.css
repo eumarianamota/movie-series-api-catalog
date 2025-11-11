@@ -2,7 +2,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #b8b6b6;
+}
 
 header {
     background-color: #f22521;
@@ -55,4 +60,52 @@ header nav a:hover {
     font-weight: bold;
     cursor: pointer;
     color: white;
+}
+
+#general {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+#movies, #series {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f98123;
+    width: 50%;
+    border-radius: 0.5rem;
+}
+
+#movies h2, #series h2 {
+    margin-bottom: 1rem;
+    color: white;
+}
+
+#movies .img-cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.4rem;
+}
+
+.img-cards img{
+    width: 40%;
+    height: auto;
+    border-radius: 0.5rem;
+}
+
+footer {
+    background-color: #f22521;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    width: 100%;
+    bottom: 0;
+    margin-top: 2rem;
 }
