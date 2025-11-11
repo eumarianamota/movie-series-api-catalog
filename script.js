@@ -8,4 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchForm = document.querySelector("form");
   const searchInput = document.getElementById("search");
 
-  
+  function criarCard(item, tipo, duration = "N/A"){
+    
+  }
