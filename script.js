@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <img src="${item.poster_path ? IMAGE_BASE + item.poster_path : '/public/Tela Pop.png'} " alt="${title}" />
     </div>
     <div class = "labels-container">
-        <div class ="label-card">${generoText || "N/A"}</div>
+        <div class ="label-card">${generoText || "Sem gênero"}</div>
     </div>
     <h3>${title}</h3>
     <p>${overview.substring(0, 150)}...</p>
@@ -47,5 +47,17 @@ async function buscarFilmes(tipo, query = "") {
       }
     }
 
+    try{
+        const response = await fetch(url);
+        const data = await response.json();
+        lista.innerHTML = "";
+
+        if(!data.results || data.results.lenght === 0){
+            lista.innerHTML= "<p>Nenhum resultado encontrado.</p>";
+            return;
+        }
+
+        const resultados = query
+    }
     
 }
