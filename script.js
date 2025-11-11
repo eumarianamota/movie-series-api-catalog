@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const generos = item.genre_ids || [];
     const generoText = generos.join(",");
 
-    card.innerHTML =
+    card.innerHTML = `
     <div class="img-cards">
         <img src="${item.poster_path ? IMAGE_BASE + item.poster_path : '/public/Tela Pop.png'} " alt="${title}" />
     </div>
@@ -26,6 +26,26 @@ document.addEventListener("DOMContentLoaded", () => {
     <p>${overview.substring(0, 150)}...</p>
     <p>Duração: <span class = "duration">${duration}</span></p>
     <button onclick = "window.open('https://www.themoviedb.org/${tipo}/${item.id}', '_blank')">Saber mais</button>
-    ;
+    `;
     return card;
+}
+
+async function buscarFilmes(tipo, query = "") {
+    const lista = tipo === "movie" ? movieList : serieList;
+    lista.innerHTML = "Carregando...";
+
+    let url = "";
+    const anoAtual = new Date().getFullYear();
+
+    if(query){
+        url = `${BASE_URL}/search/${tipo}?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}`;
+    } else{
+          if (tipo === "movie") {
+        url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=pt-BR&primary_release_year=${anoAtual}&sort_by=popularity.desc`;
+      } else {
+        url = `${BASE_URL}/discover/tv?api_key=${API_KEY}&language=pt-BR&first_air_date_year=${anoAtual}&sort_by=popularity.desc`;
+      }
+    }
+
+    
 }
