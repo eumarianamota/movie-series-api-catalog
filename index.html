@@ -1,28 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" type="image/png" href="public/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="public/favicon.svg" />
+    <link rel="shortcut icon" href="public/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="public/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Tela Pop" />
+    <link rel="manifest" href="public/site.webmanifest" />
     <script src="script.js"></script>
-    <title>Portal das Séries</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Tela Pop</title>
   </head>
   <body>
     <header>
-        <div id="logo">
-            <img src="./public/Tela Pop.png" alt="Logo-Tela Pop" />
-        </div>
+      <div id="logo">
+        <img src="./public/Tela Pop.png" alt="Logo-Tela Pop" />
+      </div>
 
-        <nav id="links">
-            <a href="#main">Início</a>
-            <a href="#movies">Filmes</a>
-            <a href="#series">Séries</a>
-        </nav>
+      <nav id="links">
+        <a href="#main">Início</a>
+        <a href="#movies">Filmes</a>
+        <a href="#series">Séries</a>
+      </nav>
     </header>
 
     <main>
-      <section class="main" id="main">
+      <section id="main">
         <form action="">
           <label for="search">Pesquise o filme ou série</label>
           <input
@@ -35,7 +40,7 @@
         </form>
       </section>
 
-      <section class="movies" id="movies">
+      <section id="movies">
         <h2>Filmes</h2>
         <div class="movie-list">
           <div class="movie-card">
@@ -63,7 +68,7 @@
         </div>
       </section>
 
-      <section class="series">
+      <section id="series">
         <h2>Séries</h2>
         <div class="serie-list">
           <div class="serie-card">
