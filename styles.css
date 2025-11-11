@@ -13,7 +13,7 @@ header {
     background-color: #f22521;
     color: white;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 header img {
@@ -27,33 +27,44 @@ header nav {
 }
 
 header nav a {
-    color: white;
+    display: flex;
     text-decoration: none;
     font-weight: bold;
-    margin: 2rem;
-}   
+    padding: 0.5rem;
+}
+
 header nav a:hover {
     text-decoration: underline;
 }
 
+.search-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-#main {
     background-color: #fbeed0;
-    padding: 1rem;
-    font-weight: bold;
+    padding: 2rem 1rem;
 }
 
-#main input {
-    width: 40%;
+.search-card .form-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.search-card input {
+    margin-top: 0.5rem;
+    width: 45%;
     padding: 0.4rem;
     border-radius: 0.5rem;
     border: none;
     outline: none;
 }
 
-#main button {
+.search-card button {
     padding: 0.5rem 1rem;
-    margin-left: 1rem;
     border: none;
     border-radius: 0.5rem;
     background-color: #f22521;
@@ -62,42 +73,95 @@ header nav a:hover {
     color: white;
 }
 
-#general {
+.general {
+    margin: 1.5rem;
+
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    margin-top: 2rem;
+    align-items: center;
+    gap: 3rem;
 }
 
-#movies, #series {
+.movies h2, .series h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+}
+
+.movie-list, .serie-list{
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 2rem;
-    padding: 1rem;
-    background-color: #f98123;
-    width: 50%;
-    border-radius: 0.5rem;
-}
-
-#movies h2, #series h2 {
-    margin-bottom: 1rem;
-    color: white;
-}
-
-#movies .img-cards {
-    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin-bottom: 0.4rem;
+    gap: 2rem;
+}
+
+.movie-card, .serie-card{
+    background: rgba(255, 248, 248, 0.315);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(15, 15, 15, 0.1);
+
+    border-radius: 1rem 0 1rem 1rem;
+    padding: 1.5rem;
+    max-width: 30rem;
 }
 
 .img-cards img{
-    width: 40%;
-    height: auto;
-    border-radius: 0.5rem;
+    width: 100%;
+    border-radius: 2.5rem 0 2.5rem 2.5rem;
+}
+
+.movie-card h3, 
+.serie-card h3{
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.movie-card .labels-container, 
+.serie-card .labels-container{
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.movie-card .label-card,
+.serie-card .label-card {
+    background: rgba(179, 100, 100, 0.315);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 234, 234, 0.541);
+    box-shadow: 0 4px 30px rgba(15, 15, 15, 0.1);
+    color: white;
+
+    border-radius: 0.3rem 0 0.3rem 0.3rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.movie-card p, 
+.serie-card p {
+    text-align: justify;
+    margin-bottom: 1rem;
+}
+
+.movie-card .details, 
+.serie-card .details {
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+}
+
+.movie-card button, 
+.serie-card button {
+    border-radius: 1rem 0 1rem 1rem;
+    background-color: #f22521;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.733);
+    box-shadow: 0 4px 30px rgba(24, 22, 22, 0.1);
+
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    margin-top: 1rem;
 }
 
 footer {
@@ -108,4 +172,10 @@ footer {
     width: 100%;
     bottom: 0;
     margin-top: 2rem;
+}
+
+@media (min-width: 550px) {
+    .movie-card, .serie-card {
+        width: 30rem;
+    }
 }

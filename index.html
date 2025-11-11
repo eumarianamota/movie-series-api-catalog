@@ -36,33 +36,36 @@
     </header>
 
     <main>
-      <section id="main">
-        <form action="">
-          <label for="search">Pesquise o filme ou série</label>
+      <section id="main" class="search-card">
+        <h2>Pesquise o filme ou série</h2>
+
+        <form action="" class="form-search">
           <input
             type="text"
             id="search"
             name="search"
             placeholder="Digite aqui..."
           />
+
           <button type="submit">Buscar</button>
         </form>
       </section>
-
-      <section id="general">
-        <section id="movies">
+      <section id="general" class="general">
+        <section id="movies" class="movies">
           <h2>Filmes</h2>
           <div class="movie-list">
             <div class="movie-card">
-                <div class="img-cards">
-                    <img  src="/public/Tela Pop.png" alt="Movie 1" />
-                </div>
-              <div class="labels-container">
-                <div class="label-card">Suspense</div>
-                <div class="label-card">Horror</div>
+              <div class="img-cards">
+                  <img  src="/public/Tela Pop.png" alt="Movie 1" />
               </div>
 
               <h3>Movie Title 1</h3>
+
+              <div class="labels-container">
+                <span class="label-card">Suspense</span>
+                <span class="label-card">Horror</span>
+              </div>
+
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque
                 accusamus ea ullam sit natus qui? Qui nostrum quibusdam
@@ -70,29 +73,31 @@
                 nihil dignissimos. Consequuntur numquam tempore doloremque?
               </p>
 
-              <p>Avaliação: <span id="rate">&#9733; &#9733; &#9733;</span></p>
-
-              <p>Duração: <span class="duration">1h30min</span></p>
+              <div class="details">
+                <p>Avaliação: <span id="rate">&#9733;&#9733;&#9733;</span></p>
+                <p>Duração: <span class="duration">1h30min</span></p>
+              </div>
 
               <button>Saber mais</button>
             </div>
           </div>
         </section>
 
-        <section id="series">
+        <section id="series" class="series">
           <h2>Séries</h2>
           <div class="serie-list">
             <div class="serie-card">
               <div class="img-cards">
-                    <img  src="/public/Tela Pop.png" alt="Movie 1" />
-                </div>
-
-              <div class="labels-container">
-                <div class="label-card">Suspense</div>
-                <div class="label-card">Horror</div>
+                <img  src="/public/Tela Pop.png" alt="Movie 1" />
               </div>
 
-              <h3>Série Title 1</h3>
+              <h3>Serie Title 1</h3>
+
+              <div class="labels-container">
+                <span class="label-card">Suspense</span>
+                <span class="label-card">Horror</span>
+              </div>
+
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque
                 accusamus ea ullam sit natus qui? Qui nostrum quibusdam
@@ -100,9 +105,10 @@
                 nihil dignissimos. Consequuntur numquam tempore doloremque?
               </p>
 
-              <p>Avaliação: <span id="rate">&#9733; &#9733; &#9733;</span></p>
-
-              <p>Duração: <span class="duration">1h30min</span></p>
+              <div class="details">
+                <p>Avaliação: <span id="rate">&#9733;&#9733;&#9733;</span></p>
+                <p>Duração: <span class="duration">1h30min</span></p>
+              </div>
 
               <button>Saber mais</button>
             </div>
@@ -114,6 +120,7 @@
     <footer>
         <p>© 2025 Tela Pop. Todos os direitos reservados.</p>
     </footer>
+
     <script src="script.js"></script>
   </body>
 </html>

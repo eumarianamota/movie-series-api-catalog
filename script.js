@@ -16,16 +16,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const generoText = generos.join(",");
 
     card.innerHTML = `
-    <div class="img-cards">
-        <img src="${item.poster_path ? IMAGE_BASE + item.poster_path : '/public/Tela Pop.png'} " alt="${title}" />
+    <div class="movie-list">
+        <div class="movie-card">
+            <div class="img-cards">
+                <img src="${item.poster_path ? IMAGE_BASE + item.poster_path : '/public/Tela Pop.png'} " alt="${title}" />
+            </div>
+
+            <h3>${title}</h3>
+
+            <div class = "labels-container">
+                <div class ="label-card">${generoText || "Sem gênero"}</div>
+            </div>
+
+            <p>${overview.substring(0, 150)}...</p>
+
+            <div class="details" > <p>Duração: <span class = "duration">${duration}</span></p> </div>
+
+            <button onclick = "window.open('https://www.themoviedb.org/${tipo}/${item.id}', '_blank')">Saber mais</button>
+        </div>
     </div>
-    <div class = "labels-container">
-        <div class ="label-card">${generoText || "Sem gênero"}</div>
-    </div>
-    <h3>${title}</h3>
-    <p>${overview.substring(0, 150)}...</p>
-    <p>Duração: <span class = "duration">${duration}</span></p>
-    <button onclick = "window.open('https://www.themoviedb.org/${tipo}/${item.id}', '_blank')">Saber mais</button>
     `;
     return card;
 }
