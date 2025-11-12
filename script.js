@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const API_KEY = '84cd682549a0588428749eeaed02d8e7';
   const BASE_URL = 'https://api.themoviedb.org/3';
   const IMAGE_BASE = 'https://image.tmdb.org/t/p/w300';
@@ -27,8 +27,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = document.createElement(tipo == "movie" ? "movie-card" : "serie-card");
     const title = item.title || item.name;
     const overview = item.overview || "Sem sinopse disponível";
-    const generos = item.genre_ids || [];
-    const generoText = generos.join(",");
+    const generoText = (item.genre_ids || [])
+        .map(id => generosMap[id])
+        .filter(Boolean)
+        .join(", ") || "Sem gênero";
+
+    const dataLancamento = item.release_date || item.first_air_date || "";
+    const ano = dataLancamento ? new Date(dataLancamento).getFullYear() : "N/A;"   
 
     card.innerHTML = `
     <div class="movie-list">
@@ -111,6 +116,8 @@ async function buscarFilmes(tipo, query = "") {
         buscarFilmes("movie", query);
         buscarFilmes("tv", query);
 });
+
+await carregarGenero();
 
 buscarFilmes("movie");
 buscarFilmes("tv");
