@@ -85,9 +85,16 @@ header nav a:hover {
 
 .movies h2, .series h2 {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
     font-size: 2.5rem;
 }
+
+.movies p, .series p{
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
 
 .movie-list, .serie-list{
     display: flex;
@@ -174,6 +181,41 @@ header nav a:hover {
  button:hover {
     background-color: #c91b18;
 }
+
+.team-container{
+    margin: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
+.title-team{
+    text-align: center;
+}
+
+.title-team h2{
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.title-team p{
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-team{
+    background-color: blue;
+}
+
+.card-img img{
+    width: 100px;
+}
+    
+
+
+
 
 footer {
     background-color: #f22521;
