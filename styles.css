@@ -206,11 +206,42 @@ header nav a:hover {
 }
 
 .card-team{
-    background-color: blue;
+    background: rgba(255, 248, 248, 0.315);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(15, 15, 15, 0.1);
+
+    border-radius: 1rem 0 1rem 1rem;
+    padding: 1.5rem;
+    max-width: 30rem;
+    width: 30rem;
+    height: auto;
+}
+
+.card-img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
 .card-img img{
-    width: 100px;
+    width: 20rem;
+    height: auto;
+    border-radius: 2.5rem 0 2.5rem 2.5rem;
+}
+
+.card-team h2  {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+    font-size: 1.4rem;
+}
+
+.card-team h5{
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;  
 }
     
 
