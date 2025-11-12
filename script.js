@@ -8,6 +8,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchForm = document.querySelector("form");
   const searchInput = document.getElementById("search");
 
+
+  let generosMap = {};
+
+  async function carregarGenero() {
+    const movieGenres = await fetch(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=pt-BR`);
+    const seriesGenres = await fetch(`${BASE_URL}/genre/tv/list?api_key=${API_KEY}&language=pt-BR`);
+    
+    const movieData = await movieGenres.json();
+    const serieData = await seriesGenres.json();
+
+    for (const genero of [...movieData.genres, ...serieData.genres]){
+        generosMap[genero.id] = genero.name;
+    }
+}
+
   function criarCard(item, tipo, duration = "N/A"){
     const card = document.createElement(tipo == "movie" ? "movie-card" : "serie-card");
     const title = item.title || item.name;
