@@ -24,7 +24,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 }
 
   function criarCard(item, tipo, duration = "N/A"){
-    const card = document.createElement(tipo == "movie" ? "movie-card" : "serie-card");
+    const card = document.createElement("div");
+    card.classList.add("movie-card");
     const title = item.title || item.name;
     const overview = item.overview || "Sem sinopse disponível";
     const generoText = (item.genre_ids || [])
@@ -33,16 +34,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         .join(", ") || "Sem gênero";
 
     const dataLancamento = item.release_date || item.first_air_date || "";
-    const ano = dataLancamento ? new Date(dataLancamento).getFullYear() : "N/A;"   
+    const ano = dataLancamento ? new Date(dataLancamento).getFullYear() : "N/A";   
 
     card.innerHTML = `
-    <div class="movie-list">
-        <div class="movie-card">
             <div class="img-cards">
                 <img src="${item.poster_path ? IMAGE_BASE + item.poster_path : '/public/Tela Pop.png'} " alt="${title}" />
             </div>
 
-            <h3>${title}</h3>
+            <div class = "card-body">
+            <h3>${title} ${ano !== "N/A" ? `(${ano})`: ""}</h3>
 
             <div class = "labels-container">
                 <div class ="label-card">${generoText || "Sem gênero"}</div>
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return card;
 }
 
-async function buscarFilmes(tipo, query = "") {
+async function buscarFilmes(tipo, query = "") { 
     const lista = tipo === "movie" ? movieList : serieList;
     lista.innerHTML = "Carregando...";
 
@@ -81,29 +81,49 @@ async function buscarFilmes(tipo, query = "") {
         const data = await response.json();
         lista.innerHTML = "";
 
-        if(!data.results || data.results.lenght === 0){
+        if(!data.results || data.results.length === 0){
             lista.innerHTML= "<p>Nenhum resultado encontrado.</p>";
             return;
         }
 
-        const resultados = query ? data.results : data.results.slice(0, 5);
+        const unico = [];
+        const vistos = new Set();
 
-        for (const item of resultados){
+        for (const item of data.results){
+            if(!vistos.has(item.id)){
+                vistos.add(item.id);
+                unico.push(item);
+            }
+            if(unico.length >= 5) break;
+        }
+
+
+        for (const item of unico){
             let duration = "N/A";
 
-            if(tipo === "tv"){
-                try{
-                    const responseDetails = await fetch(`${BASE_URL}/tv/${item.id}?api_key=${API_KEY}&language=pt-BR`);
-                    const details = await responseDetails.json();
-                    duration = details.episode_run_time?.lenght ? details.episode_run_time[0] + "min" : "N/A";
-                } catch{
-                    duration = "N/A";
-                }
-                }
+            try{
+                const detailsUrl = 
+                tipo === "movie"
+                ? `${BASE_URL}/movie/${item.id}?api_key=${API_KEY}&language=pt-BR`
+                : `${BASE_URL}/tv/${item.id}?api_key=${API_KEY}&language=pt-BR`;
 
-                const card = criarCard(item, tipo, duration);
-                lista.appendChild(card);
+                const responseDetails = await fetch(detailsUrl);
+                const details = await responseDetails.json();
+
+                if (tipo === "movie" && details.runtime) {
+                    duration = `${details.runtime} min`;
+                } else if (
+                    tipo === "tv" && Array.isArray(details.episode_run_time) && details.episode_run_time.length > 0
+                ) {
+                    duration = `${details.episode_run_time[0]} min`;
+                }
+            } catch(err){
+                console.error(`Erro ao encontrar a duração de ${tipo} ${item.id}:`, err);
             }
+
+            const card = criarCard(item, tipo, duration);
+            lista.appendChild(card);
+        }
         } catch (error){
             console.error(error);
             lista.innerHTML = "<p>Erro ao carregar os dados.</p>";
