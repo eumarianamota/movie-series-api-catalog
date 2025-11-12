@@ -239,24 +239,33 @@ button:hover {
     font-size: 0.9rem;  
 } 
 
+/* FOOTER */
 footer {
     background-color: #f22521;
     color: white;
-    text-align: center;
-    padding: 1rem;
-    /* width: 100%; */
-    bottom: 0;
-    margin-top: 2rem;
+    text-align: justify;
+    padding: 1.5rem;
+    
+    display: flex;
+    /* flex-wrap: wrap; */
+    flex-direction: column;
+    justify-content: start;
+    gap: 2rem;
 }
 
 
 footer h3 {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
 }
 
 
 @media (min-width: 550px) {
-    /* .movie-card, .serie-card {
-        width: 30rem;
-    } */
+    footer {
+        flex-direction: row;
+        justify-content:space-around;
+    }
+
+    footer .description, footer .collaborators {
+        max-width: 40%;
+    }
 }
