@@ -9,6 +9,7 @@ body {
     background-color: #b8b6b6;
 }
 
+
 header {
     background-color: #f22521;
     color: white;
@@ -74,6 +75,8 @@ header nav a:hover {
     color: white;
 }
 
+
+/* SECTION FILMES E SERIES */
 .general {
     margin: 1.5rem;
 
@@ -101,7 +104,7 @@ header nav a:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
+    /* align-items: start; */
     gap: 2rem;
 }
 
@@ -113,7 +116,11 @@ header nav a:hover {
 
     border-radius: 1rem 0 1rem 1rem;
     padding: 1.5rem;
-    max-width: 30rem;
+    
+    max-width: 20rem;
+    
+    display: flex;
+    flex-direction: column;
 }
 
 .img-cards img{
@@ -179,15 +186,19 @@ header nav a:hover {
     transition: 0.3s;
 }
 
- button:hover {
+button:hover {
     background-color: #c91b18;
 }
 
+/* SECTION COLABORADORES */
 .team-container{
     margin: 1.5rem;
+
+
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-wrap: wrap;
+
+
     gap: 3rem;
 }
 
@@ -215,27 +226,17 @@ header nav a:hover {
     border-radius: 1rem 0 1rem 1rem;
     padding: 1.5rem;
     max-width: 30rem;
-    width: 30rem;
-    height: auto;
-}
-
-.card-img{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1rem;
+    width: 20rem;
 }
 
 .card-img img{
-    width: 20rem;
-    height: auto;
+    width: 100%;
     border-radius: 2.5rem 0 2.5rem 2.5rem;
 }
 
 .card-team h2  {
     text-align: center;
     margin-bottom: 0.5rem;
-    white-space: nowrap;
     font-size: 1.4rem;
 }
 
@@ -244,10 +245,6 @@ header nav a:hover {
     margin-bottom: 0.5rem;
     font-size: 0.9rem;  
 }
-    
-
-
-
 
 footer {
     background-color: #f22521;
@@ -265,9 +262,8 @@ footer h3 {
 }
 
 
-
 @media (min-width: 550px) {
-    .movie-card, .serie-card {
+    /* .movie-card, .serie-card {
         width: 30rem;
-    }
+    } */
 }
