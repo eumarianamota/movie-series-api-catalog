@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             <div class="details" > <p>Duração: <span class = "duration">${duration}</span></p> </div>
 
-            <button onclick = "window.open('https://www.themoviedb.org/${tipo}/${item.id}', '_blank')">Saber mais</button>
+            <button onclick = "window.location.href='details.html'")">Saber mais</button>
         </div>
     </div>
     `;
