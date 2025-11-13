@@ -147,5 +147,8 @@ if(window.location.pathname.includes('details.html')){
     const API_KEY = '84cd682549a0588428749eeaed02d8e7';
     const BASE_URL = 'https://api.themoviedb.org/3';
     const IMAGE_BASE = 'https://image.tmdb.org/t/p/w300';
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id')
 }
 });
