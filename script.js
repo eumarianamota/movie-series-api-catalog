@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             <div class="details" > <p>Duração: <span class = "duration">${duration}</span></p> </div>
 
-            <button onclick = "window.location.href='details.html'")">Saber mais</button>
+            <button onclick = "window.location.href=\`details.html?id=${item.id}&type=${tipo}\`"})">Saber mais</button>
         </div>
     </div>
     `;
@@ -142,4 +142,10 @@ await carregarGenero();
 buscarFilmes("movie");
 buscarFilmes("tv");
 
+
+if(window.location.pathname.includes('details.html')){
+    const API_KEY = '84cd682549a0588428749eeaed02d8e7';
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const IMAGE_BASE = 'https://image.tmdb.org/t/p/w300';
+}
 });
