@@ -193,7 +193,7 @@ if(window.location.href.includes('details.html')){
             linkTrailer.textContent = 'Ver trailer no YouTube';
           } else {
             linkTrailer.removeAttribute('href');
-            linkTrailer.textContent = 'Trailer não disponível';
+            linkTrailer.textContent = 'Trailer indisponível';
           }
         }
 
