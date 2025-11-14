@@ -45,19 +45,30 @@
     </header>
 
     <main>
-      <section id="main" class="search-card">
-        <h2>Pesquise o filme ou série</h2>
+      <section id="main" class="search-container">
+        <h1>Pesquise o filme ou série</h1>
 
-        <form action="" class="form-search">
-          <input
-            type="text"
-            id="search"
-            name="search"
-            placeholder="Digite aqui..."
-          />
+        <div class="options-container">
+          <form action="" class="form-search">
+            <input
+              type="text"
+              id="search"
+              name="search"
+              placeholder="Digite aqui..."
+            />
 
-          <button type="submit">Buscar</button>
-        </form>
+            <button type="submit">Buscar</button>
+          </form>
+
+          <div class="filters">
+            <select name="filters" id="filter" class="filter">
+              <option value="default" selected disabled>Filtre por gênero</option>
+              <option value="1">Romance</option>
+              <option value="2">Terror</option>
+              <option value="3">Fantasia</option>
+            </select>
+          </div>
+        </div>
       </section>
 
       <section id="general" class="general">
