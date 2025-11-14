@@ -52,7 +52,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             <div class="details" > <p>Duração: <span class = "duration">${duration}</span></p> </div>
 
-            <button onclick = "window.location.href=\`details.html?id=${item.id}&type=${tipo}\`"})">Saber mais</button>
+            <button onclick="window.location.href='details.html?id=${item.id}&type=${tipo}'">Saber mais</button>
+
         </div>
     </div>
     `;
@@ -169,6 +170,18 @@ if(window.location.pathname.includes('details.html')){
 
             const rate = document.querySelector('.details span');
             rate.textContent = `${Math.round(dados.vote_average * 10)}% gostaram`;
+
+            const respostaTrailer = await fetch(`${BASE_URL}/${type}/${id}videos?api_key=${API_KEY}&language=pt=BR`);
+            const videos = await respostaTrailer.json();
+            const trailer = videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+
+            const linkTrailer = document.querySelector('.details a');
+            if(trailer){
+                linkTrailer.href = `https://www.youtube.com/watch?v=${trailer.key}`;
+            }else{
+                linkTrailer.textContent = 'Trailer não disponível';
+                linkTrailer.removeAttribute('href');
+            }
 
             const linkSite = document.querySelector('.redirection a');
             linkSite.href = dados.homepage || `https://www.themoviedb.org/${type}/${id}`;
