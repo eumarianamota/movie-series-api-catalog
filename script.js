@@ -167,11 +167,17 @@ if(window.location.pathname.includes('details.html')){
             const sinopse = document.querySelector('.sinopse p');
             sinopse.textContent = dados.overview || 'Sinopse não disponível';
 
-            const rate = document.querySelector
+            const rate = document.querySelector('.details span');
+            rate.textContent = `${Math.round(dados.vote_average * 10)}% gostaram`;
+
+            const linkSite = document.querySelector('.redirection a');
+            linkSite.href = dados.homepage || `https://www.themoviedb.org/${type}/${id}`;
+            linkSite.textContent = dados.homepage ? 'Saiba mais no site oficial' : '';
+            } catch(err){
+                console.error('Erro ao carregar detalhes', err);
             }
         }
-
+        carregarDetalhes();
     }
-}
 }
 );
