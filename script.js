@@ -161,10 +161,17 @@ if(window.location.pathname.includes('details.html')){
             img.src = dados.poster_path ? `${IMAGE_BASE}${dados.poster_path}` : 'public/Tela Pop.png';
             img.alt = dados.title || dados.name;
 
-            
+            const titulo = document.querySelector('.informations h1');
+            titulo.textContent = `${dados.title || dados.name} (${(dados.release_date || dados.first_air_date || '' ).slice(0,4)})`;
+
+            const sinopse = document.querySelector('.sinopse p');
+            sinopse.textContent = dados.overview || 'Sinopse não disponível';
+
+            const rate = document.querySelector
             }
         }
 
     }
 }
-});
+}
+);
