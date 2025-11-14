@@ -69,19 +69,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     return card;
 }
 
-async function buscarFilmes(tipo, query = "") { 
+async function buscarFilmes(tipo, query = "", generoId = "") { 
     const lista = tipo === "movie" ? movieList : serieList;
     if(!lista) return;
     lista.innerHTML = "Carregando...";
 
     const anoAtual = new Date().getFullYear();
-    let url = query
+    let url;
 
-    ? `${BASE_URL}/search/${tipo}?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}`
-    : tipo === "movie"
-        ? `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=pt-BR&primary_release_year=${anoAtual}&sort_by=popularity.desc`
-        : `${BASE_URL}/discover/tv?api_key=${API_KEY}&language=pt-BR&first_air_date_year=${anoAtual}&sort_by=popularity.desc`;
-
+    if (query) {
+        url = `${BASE_URL}/search/${tipo}?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}`;
+    } else if (generoId) {
+        url = `${BASE_URL}/discover/${tipo}?api_key=${API_KEY}&language=pt-BR&with_genres=${generoId}&sort_by=popularity.desc`;
+    } else {
+        url =
+            tipo === "movie"
+            ? `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=pt-BR&primary_release_year=${anoAtual}&sort_by=popularity.desc`
+            : `${BASE_URL}/discover/tv?api_key=${API_KEY}&language=pt-BR&first_air_date_year=${anoAtual}&sort_by=popularity.desc`;
+}
     try{
         const response = await fetch(url);
         const data = await response.json();
@@ -146,6 +151,17 @@ async function buscarFilmes(tipo, query = "") {
     }
 
 await carregarGenero();
+
+const filterSelect = document.getElementById("filter");
+
+if (filterSelect) {
+  filterSelect.addEventListener("change", () => {
+    const generoId = filterSelect.value;
+
+    buscarFilmes("movie", "", generoId);
+    buscarFilmes("tv", "", generoId);
+  });
+}
 buscarFilmes("movie");
 buscarFilmes("tv");
 
@@ -211,5 +227,6 @@ if(window.location.href.includes('details.html')){
     }
 
     carregarDetalhes();
+
   }
 });
