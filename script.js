@@ -49,9 +49,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <div class ="label-card">${generoText || "Sem gênero"}</div>
             </div>
 
-            <p>${overview.substring(0, 150)}...</p>
+            <p>${overview.substring(0, 50)}...</p>
 
-            <div class="details" > <p>Duração: <span class = "duration">${duration}</span></p> </div>
+            <div class="details" > 
+            <p> Tipo: filme </p>
+            <p>Duração: <span class = "duration">${duration}</span></p> 
+            </div>
 
         </div>
     </div>
