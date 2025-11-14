@@ -150,5 +150,21 @@ if(window.location.pathname.includes('details.html')){
 
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id')
+    const type = params.get('type');
+
+    async function carregarDetalhes(params) {
+        try{
+            const resposta = await fetch(`%{BASE_URL}/${type}/${id}?api_key=${API_KEY}&language=pt-BR`);
+            const dados = await resposta.json();
+
+            const img = document.querySelector('.img-movie img');
+            img.src = dados.poster_path ? `${IMAGE_BASE}${dados.poster_path}` : 'public/Tela Pop.png';
+            img.alt = dados.title || dados.name;
+
+            
+            }
+        }
+
+    }
 }
 });
