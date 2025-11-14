@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const API_KEY = '84cd682549a0588428749eeaed02d8e7';
   const BASE_URL = 'https://api.themoviedb.org/3';
-  const IMAGE_BASE = 'https://image.tmdb.org/t/p/w300';
+  const IMAGE_BASE_SMALL = 'https://image.tmdb.org/t/p/w300';
+  const IMAGE_BASE_LARGE = 'https://image.tmdb.org/t/p/w500';
 
   const movieList = document.querySelector(".movie-list");
   const serieList = document.querySelector(".serie-list");
@@ -38,7 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     card.innerHTML = `
             <div class="img-cards">
-                <img src="${item.poster_path ? IMAGE_BASE + item.poster_path : '/public/Tela Pop.png'} " alt="${title}" />
+                <img src="${item.poster_path ? IMAGE_BASE_SMALL + item.poster_path : '/public/Tela Pop.png'} " alt="${title}" />
             </div>
 
             <div class = "card-body">
@@ -52,30 +53,31 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             <div class="details" > <p>Duração: <span class = "duration">${duration}</span></p> </div>
 
-            <button onclick="window.location.href='details.html?id=${item.id}&type=${tipo}'">Saber mais</button>
-
         </div>
     </div>
     `;
+
+    const button = document.createElement("button");
+    button.textContent = "Saber mais";
+    button.onclick = () => {
+        window.location.href = `details.html?id=${item.id}&type=${tipo}`;
+    };
+    card.querySelector(".card-body").appendChild(button);
     return card;
 }
 
 async function buscarFilmes(tipo, query = "") { 
     const lista = tipo === "movie" ? movieList : serieList;
+    if(!lista) return;
     lista.innerHTML = "Carregando...";
 
-    let url = "";
     const anoAtual = new Date().getFullYear();
+    let url = query
 
-    if(query){
-        url = `${BASE_URL}/search/${tipo}?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}`;
-    } else{
-          if (tipo === "movie") {
-        url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=pt-BR&primary_release_year=${anoAtual}&sort_by=popularity.desc`;
-      } else {
-        url = `${BASE_URL}/discover/tv?api_key=${API_KEY}&language=pt-BR&first_air_date_year=${anoAtual}&sort_by=popularity.desc`;
-      }
-    }
+    ? `${BASE_URL}/search/${tipo}?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}`
+    : tipo === "movie"
+        ? `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=pt-BR&primary_release_year=${anoAtual}&sort_by=popularity.desc`
+        : `${BASE_URL}/discover/tv?api_key=${API_KEY}&language=pt-BR&first_air_date_year=${anoAtual}&sort_by=popularity.desc`;
 
     try{
         const response = await fetch(url);
@@ -131,20 +133,21 @@ async function buscarFilmes(tipo, query = "") {
         }
     }
 
-    searchForm.addEventListener("submit", (e) => {
+    if(searchForm){
+        searchForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const query = searchInput.value.trim();
         buscarFilmes("movie", query);
         buscarFilmes("tv", query);
 });
+    }
 
 await carregarGenero();
-
 buscarFilmes("movie");
 buscarFilmes("tv");
 
 
-if(window.location.pathname.includes('details.html')){
+if(window.location.href.includes('details.html')){
     const API_KEY = '84cd682549a0588428749eeaed02d8e7';
     const BASE_URL = 'https://api.themoviedb.org/3';
     const IMAGE_BASE = 'https://image.tmdb.org/t/p/w300';
@@ -153,44 +156,57 @@ if(window.location.pathname.includes('details.html')){
     const id = params.get('id')
     const type = params.get('type');
 
-    async function carregarDetalhes(params) {
-        try{
-            const resposta = await fetch(`%{BASE_URL}/${type}/${id}?api_key=${API_KEY}&language=pt-BR`);
-            const dados = await resposta.json();
+    if(!id || !type) return;
 
-            const img = document.querySelector('.img-movie img');
-            img.src = dados.poster_path ? `${IMAGE_BASE}${dados.poster_path}` : 'public/Tela Pop.png';
-            img.alt = dados.title || dados.name;
+     async function carregarDetalhes() {
+      try {
+        const resposta = await fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}&language=pt-BR`);
+        const dados = await resposta.json();
 
-            const titulo = document.querySelector('.informations h1');
-            titulo.textContent = `${dados.title || dados.name} (${(dados.release_date || dados.first_air_date || '' ).slice(0,4)})`;
+        const img = document.querySelector('.img-movie img');
+        const titulo = document.querySelector('.informations h1');
+        const generosDiv = document.querySelector('.classification');
+        const sinopse = document.querySelector('.sinopse p');
+        const rate = document.querySelector('.details span');
+        const linkTrailer = document.querySelector('.details a');
+        const linkSite = document.querySelector('.redirection a');
 
-            const sinopse = document.querySelector('.sinopse p');
-            sinopse.textContent = dados.overview || 'Sinopse não disponível';
+        if(img) img.src = dados.poster_path ? `${IMAGE_BASE_LARGE}${dados.poster_path}` : 'public/Tela Pop.png';
+        if(img) img.alt = dados.title || dados.name;
 
-            const rate = document.querySelector('.details span');
-            rate.textContent = `${Math.round(dados.vote_average * 10)}% gostaram`;
+        if(titulo) titulo.textContent = `${dados.title || dados.name} (${(dados.release_date || dados.first_air_date || '').slice(0,4)})`;
 
-            const respostaTrailer = await fetch(`${BASE_URL}/${type}/${id}videos?api_key=${API_KEY}&language=pt=BR`);
-            const videos = await respostaTrailer.json();
-            const trailer = videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+        if(generosDiv) generosDiv.innerHTML = dados.genres.map(g => `<div>${g.name}</div>`).join('');
 
-            const linkTrailer = document.querySelector('.details a');
-            if(trailer){
-                linkTrailer.href = `https://www.youtube.com/watch?v=${trailer.key}`;
-            }else{
-                linkTrailer.textContent = 'Trailer não disponível';
-                linkTrailer.removeAttribute('href');
-            }
+        if(sinopse) sinopse.textContent = dados.overview || 'Sinopse não disponível.';
 
-            const linkSite = document.querySelector('.redirection a');
-            linkSite.href = dados.homepage || `https://www.themoviedb.org/${type}/${id}`;
-            linkSite.textContent = dados.homepage ? 'Saiba mais no site oficial' : '';
-            } catch(err){
-                console.error('Erro ao carregar detalhes', err);
-            }
+        if(rate) rate.textContent = `${Math.round(dados.vote_average*10)}% gostaram`;
+
+
+        const respostaVideos = await fetch(`${BASE_URL}/${type}/${id}/videos?api_key=${API_KEY}&language=pt-BR`);
+        const videos = await respostaVideos.json();
+        const trailer = videos.results.find(v => v.type==="Trailer" && v.site==="YouTube");
+
+        if(linkTrailer){
+          if(trailer){
+            linkTrailer.href = `https://www.youtube.com/watch?v=${trailer.key}`;
+            linkTrailer.textContent = 'Ver trailer no YouTube';
+          } else {
+            linkTrailer.removeAttribute('href');
+            linkTrailer.textContent = 'Trailer não disponível';
+          }
         }
-        carregarDetalhes();
+
+        if(linkSite){
+          linkSite.href = dados.homepage || `https://www.themoviedb.org/${type}/${id}`;
+          linkSite.textContent = dados.homepage ? 'Saiba mais no site oficial' : '';
+        }
+
+      } catch(err){
+        console.error("Erro ao carregar detalhes:", err);
+      }
     }
-}
-);
+
+    carregarDetalhes();
+  }
+});
