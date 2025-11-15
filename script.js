@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const serieList = document.querySelector(".serie-list");
   const searchForm = document.querySelector("form");
   const searchInput = document.getElementById("search");
+  const filterSelect = document.getElementById("filter");
 
 
   let generosMap = {};
@@ -155,16 +156,26 @@ await carregarGenero();
 const filterSelect = document.getElementById("filter");
 
 if (filterSelect) {
-  filterSelect.addEventListener("change", () => {
+  filterSelect.innerHTML = ` <option value="" selected disabled>Filtre por gênero</option>
+  `;
+  for(const id in generosMap){
+    const option = document.createElement("option")
+    option.value = id;
+    option.textContent = generosMap[id];
+    filterSelect.appendChild(option);
+  }
+    filterSelect.addEventListener("change", () => {
     const generoId = filterSelect.value;
 
-    buscarFilmes("movie", "", generoId);
-    buscarFilmes("tv", "", generoId);
+    buscarFilmes("movie", generoId);
+    buscarFilmes("tv", generoId);
+
   });
+
 }
+
 buscarFilmes("movie");
 buscarFilmes("tv");
-
 
 if(window.location.href.includes('details.html')){
     const API_KEY = '84cd682549a0588428749eeaed02d8e7';
