@@ -74,7 +74,7 @@ function popularSelectGenero() {
             <p>${overview.substring(0, 50)}...</p>
 
             <div class="details" > 
-            <p> Tipo: filme </p>
+            <p> Tipo: ${tipo === 'movie' ? 'filme' : 'série'} </p>
             <p>Duração: <span class = "duration">${duration}</span></p> 
             </div>
 
