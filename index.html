@@ -4,25 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
-    <link
-      rel="icon"
-      type="image/png"
-      href="public/favicon-96x96.png"
-      sizes="96x96"
-    />
+
+    <link rel="icon" type="image/png" href="public/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="public/favicon.svg" />
     <link rel="shortcut icon" href="public/favicon.ico" />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="public/apple-touch-icon.png"
-    />
+    <link rel="apple-touch-icon" sizes="180x180" href="public/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Tela Pop" />
     <link rel="manifest" href="public/site.webmanifest" />
-    <script src="script.js"></script>
+
+    <!-- ❌ REMOVIDO script duplicado -->
     <title>Tela Pop</title>
   </head>
+
   <body>
+    <div id="spinner" class="spinner"></div>
+
     <header>
       <nav>
         <div id="logo">
@@ -50,147 +46,88 @@
 
         <div class="options-container">
           <form action="" class="form-search">
-            <input
-              type="text"
-              id="search"
-              name="search"
-              placeholder="Digite aqui..."
-            />
-
+            <input type="text" id="search" name="search" placeholder="Digite aqui..." />
             <button type="submit">Buscar</button>
           </form>
 
           <div class="filters">
             <select name="filters" id="filter" class="filter">
-              <option value="default" selected disabled>Filtre por gênero</option>
-              <option value="10749">Romance</option>
-              <option value="27">Terror</option>
-              <option value="14">Fantasia</option>
+              <option value="" selected disabled>Filtre por gênero</option>
             </select>
           </div>
         </div>
       </section>
 
       <section id="general" class="general">
+        
+        <!-- FILMES -->
         <section id="movies" class="movies">
           <div class="title-movies">
             <h2>Filmes</h2>
-            <p>
-              Filmes diversos para você aproveitar e maratonar quando quiser!
-            </p>
+            <p>Filmes diversos para você aproveitar e maratonar quando quiser!</p>
           </div>
 
-          <div class="movie-list">
-            <div class="movie-card">
-              <div class="img-cards">
-                <img src="" alt="Movie 1" />
-              </div>
+          <!-- ❌ REMOVIDO O CARD DEMO -->
+          <div class="movie-list"></div>
 
-              <h3>Movie Title 1</h3>
-
-              <div class="labels-container">
-                <span class="label-card">Suspense</span>
-                <span class="label-card">Horror</span>
-              </div>
-
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque
-                accusamus ea ullam sit natus qui? Qui nostrum quibusdam
-                consectetur sunt obcaecati voluptatibus officia? Voluptates,
-                nihil dignissimos. Consequuntur numquam tempore doloremque?
-              </p>
-
-              <div class="details">
-                <p>Avaliação: <span id="rate">&#9733;&#9733;&#9733;</span></p>
-                <p>Duração: <span class="duration">1h30min</span></p>
-              </div>
-
-              <button>Saber mais</button>
-            </div>
-          </div>
-          
           <div class="btn-next-prev">
-              <button id="btn-prev">Anterior</button>
-              <p id="pages" class="pages">1 de 25</p>
-              <button id="btn-next">Próximo</button>
+            <button id="btn-prev-movies">Anterior</button>
+            <p id="pages-movies" class="pages">1 de 25</p>
+            <button id="btn-next-movies">Próximo</button>
           </div>
         </section>
 
+        <!-- SÉRIES -->
         <section id="series" class="series">
           <div class="title-series">
             <h2>Séries</h2>
             <p>As melhores séries para você maratonar estão aqui!</p>
           </div>
-          <div class="serie-list">
-            <div class="serie-card">
-              <div class="img-cards">
-                <img src="/public/Tela Pop.png" alt="Movie 1" />
-              </div>
 
-              <h3>Serie Title 1</h3>
-
-              <div class="labels-container">
-                <span class="label-card">Suspense</span>
-                <span class="label-card">Horror</span>
-              </div>
-
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque
-                accusamus ea ullam sit natus qui? Qui nostrum quibusdam
-                consectetur sunt obcaecati voluptatibus officia? Voluptates,
-                nihil dignissimos. Consequuntur numquam tempore doloremque?
-              </p>
-
-              <div class="details">
-                <p>Tipo: série</p>
-                <p>Temporadas: <span class="duration">5 temporadas</span></p>
-              </div>
-
-              <button>Saber mais</button>
-            </div>
-          </div>
+          <!-- ❌ REMOVIDO CARD DEMO -->
+          <div class="serie-list"></div>
 
           <div class="btn-next-prev">
-              <button id="btn-prev">Anterior</button>
-              <p id="pages" class="pages">1 de 25</p>
-              <button id="btn-next">Próximo</button>
+            <button id="btn-prev-series">Anterior</button>
+            <p id="pages-series" class="pages">1 de 25</p>
+            <button id="btn-next-series">Próximo</button>
           </div>
         </section>
 
+        <!-- EQUIPE -->
         <section id="team" class="team">
           <div class="title-team">
             <h2>Equipe</h2>
-            <p>
-              Projeto desenvolvido por alunos do curso de Desenvolvimento Web
-            </p>
+            <p>Projeto desenvolvido por alunos do curso de Desenvolvimento Web</p>
           </div>
 
-        <div class="team-container">
-          <div class="card-team">
-            <div class="card-img">
-              <img src="/public/mariana.png" alt="Dev 1">
+          <div class="team-container">
+            <div class="card-team">
+              <div class="card-img">
+                <img src="/public/mariana.png" alt="Dev 1">
+              </div>
+              <h2>Mariana da Mota Pinho</h2>
+              <h5>Sistemas da computação - UESPI</h5>
             </div>
-            <h2>Mariana da Mota Pinho </h2>
-            <h5>Sistemas da computação - UESPI</h5>
-          </div>
 
-          <div class="card-team">
-            <div class="card-img">
-              <img src="/public/photo_jm.jpeg" alt="Dev 1">
+            <div class="card-team">
+              <div class="card-img">
+                <img src="/public/photo_jm.jpeg" alt="Dev 1">
+              </div>
+              <h2>João Marcello Machado Braz</h2>
+              <h5>Ciência da computação - UESPI</h5>
             </div>
-            <h2>João Marcello Machado Braz</h2>
-            <h5>Ciência  da computação - UESPI</h5>
-          </div>
 
-          <div class="card-team">
-            <div class="card-img">
-              <img src="/public/mrita.png" alt="Dev 1">
+            <div class="card-team">
+              <div class="card-img">
+                <img src="/public/mrita.png" alt="Dev 1">
+              </div>
+              <h2>Maria Rita Lustosa da Silva Nascimento</h2>
+              <h5>Ciência da Computação - UESPI</h5>
             </div>
-            <h2>Maria Rita Lustosa da Silva Nascimento</h2>
-            <h5>Ciência da Computação - UESPI</h5>
           </div>
-        </div>
         </section>
+      </section>
     </main>
 
     <footer>
@@ -207,7 +144,9 @@
       </div>
     </footer>
 
+    <!-- ✅ Scripts carregados apenas uma vez -->
     <script src="script.js"></script>
     <script src="menu.js"></script>
+
   </body>
 </html>
