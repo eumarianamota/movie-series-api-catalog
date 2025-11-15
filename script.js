@@ -1,36 +1,35 @@
 document.addEventListener("DOMContentLoaded", async () => {
-
   const API_KEY = '84cd682549a0588428749eeaed02d8e7';
   const BASE_URL = 'https://api.themoviedb.org/3';
   const IMAGE_BASE_SMALL = 'https://image.tmdb.org/t/p/w300';
+  const IMAGE_BASE_LARGE = 'https://image.tmdb.org/t/p/w500';
 
   const movieList = document.querySelector(".movie-list");
   const serieList = document.querySelector(".serie-list");
   const searchForm = document.querySelector("form");
   const searchInput = document.getElementById("search");
   const filterSelect = document.getElementById("filter");
-  const spinner = document.getElementById("spinner");
 
-  const showSpinner = () => spinner.style.display = "block";
-  const hideSpinner = () => spinner.style.display = "none";
 
   let generosMap = {};
 
   async function carregarGenero() {
     const [movieRes, tvRes] = await Promise.all([
-      fetch(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=pt-BR`),
-      fetch(`${BASE_URL}/genre/tv/list?api_key=${API_KEY}&language=pt-BR`)
+        fetch(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=pt-BR`),
+        fetch(`${BASE_URL}/genre/tv/list?api_key=${API_KEY}&language=pt-BR`),
     ]);
 
     const movieData = await movieRes.json();
     const tvData = await tvRes.json();
 
-    [...movieData.genres, ...tvData.genres].forEach(g => {
-      generosMap[g.id] = g.name;
-    });
-  }
+    for(const g of [...movieData.genres, ...tvData.genres]){
+        generosMap[g.id] = g.name;
+    }
+}
 
-  function popularSelectGenero() {
+function popularSelectGenero() {
+    if (!filterSelect) return;
+
     filterSelect.innerHTML = `<option value="" selected disabled>Filtre por gênero</option>`;
 
     for (const id in generosMap) {
@@ -40,7 +39,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       filterSelect.appendChild(option);
     }
 
-    // EXIBE SOMENTE MOVIES E TV quando necessário
     filterSelect.addEventListener("change", () => {
       const generoId = filterSelect.value;
       buscarFilmes("movie", "", generoId);
@@ -48,137 +46,197 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  function criarCard(item, tipo, duration = "N/A") {
+  function criarCard(item, tipo, duration = "N/A"){
     const card = document.createElement("div");
-    card.classList.add(tipo === "movie" ? "movie-card" : "serie-card");
-
+    card.classList.add("movie-card");
     const title = item.title || item.name;
     const overview = item.overview || "Sem sinopse disponível";
-    const ano = (item.release_date || item.first_air_date || "").slice(0, 4);
-
     const generoText = (item.genre_ids || [])
-      .map(id => generosMap[id])
-      .filter(Boolean)
-      .join(", ") || "Sem gênero";
+        .map(id => generosMap[id])
+        .filter(Boolean)
+        .join(", ") || "Sem gênero";
+
+    const dataLancamento = item.release_date || item.first_air_date || "";
+    const ano = dataLancamento ? new Date(dataLancamento).getFullYear() : "N/A";   
 
     card.innerHTML = `
-      <div class="img-cards">
-          <img src="${item.poster_path ? IMAGE_BASE_SMALL + item.poster_path : '/public/Tela Pop.png'}" alt="${title}" />
-      </div>
+            <div class="img-cards">
+                <img src="${item.poster_path ? IMAGE_BASE_SMALL + item.poster_path : '/public/Tela Pop.png'} " alt="${title}" />
+            </div>
 
-      <div class="card-body">
-        <h3>${title} ${ano ? `(${ano})` : ""}</h3>
+            <div class = "card-body">
+            <h3>${title} ${ano !== "N/A" ? `(${ano})`: ""}</h3>
 
-        <div class="labels-container">
-            <div class="label-card">${generoText}</div>
+            <div class = "labels-container">
+                <div class ="label-card">${generoText || "Sem gênero"}</div>
+            </div>
+
+            <p>${overview.substring(0, 50)}...</p>
+
+            <div class="details" > 
+            <p> Tipo: ${tipo === 'movie' ? 'filme' : 'série'} </p>
+            <p>${duration}</p> 
+            </div>
+
         </div>
-
-        <p>${overview.substring(0, 50)}...</p>
-
-        <div class="details">
-            <p>Tipo: ${tipo === "movie" ? "filme" : "série"}</p>
-            <p>${duration}</p>
-        </div>
-
-      </div>
+    </div>
     `;
 
     const button = document.createElement("button");
     button.textContent = "Saber mais";
     button.onclick = () => {
-      window.location.href = `details.html?id=${item.id}&type=${tipo}`;
+        window.location.href = `details.html?id=${item.id}&type=${tipo}`;
     };
-
     card.querySelector(".card-body").appendChild(button);
     return card;
-  }
+}
 
-  async function buscarDuracao(itemId, tipo) {
-    try {
-      const url =
-        tipo === "movie"
-          ? `${BASE_URL}/movie/${itemId}?api_key=${API_KEY}&language=pt-BR`
-          : `${BASE_URL}/tv/${itemId}?api_key=${API_KEY}&language=pt-BR`;
-
-      const res = await fetch(url);
-      const details = await res.json();
-
-      if (tipo === "movie" && details.runtime) return `${details.runtime} min`;
-      if (tipo === "tv" && details.number_of_seasons) return `${details.number_of_seasons} temporadas`;
-
-      return "N/A";
-    } catch {
-      return "N/A";
-    }
-  }
-
-  async function buscarFilmes(tipo, query = "", generoId = "") {
+async function buscarFilmes(tipo, query = "", generoId = "") { 
     const lista = tipo === "movie" ? movieList : serieList;
-    if (!lista) return;
-
-    showSpinner();
-    lista.innerHTML = "";
+    if(!lista) return;
+    lista.innerHTML = "Carregando...";
 
     const anoAtual = new Date().getFullYear();
     let url;
 
     if (query) {
-      url = `${BASE_URL}/search/${tipo}?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}`;
+        url = `${BASE_URL}/search/${tipo}?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}`;
     } else if (generoId) {
-      url = `${BASE_URL}/discover/${tipo}?api_key=${API_KEY}&language=pt-BR&with_genres=${generoId}`;
+        url = `${BASE_URL}/discover/${tipo}?api_key=${API_KEY}&language=pt-BR&with_genres=${generoId}&sort_by=popularity.desc`;
     } else {
-      url = tipo === "movie"
-        ? `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=pt-BR&primary_release_year=${anoAtual}`
-        : `${BASE_URL}/discover/tv?api_key=${API_KEY}&language=pt-BR&first_air_date_year=${anoAtual}`;
-    }
+        url =
+            tipo === "movie"
+            ? `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=pt-BR&primary_release_year=${anoAtual}&sort_by=popularity.desc`
+            : `${BASE_URL}/discover/tv?api_key=${API_KEY}&language=pt-BR&first_air_date_year=${anoAtual}&sort_by=popularity.desc`;
+}
+    try{
+        const response = await fetch(url);
+        const data = await response.json();
+        lista.innerHTML = "";
 
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (!data.results?.length) {
-        lista.innerHTML = "<p>Nenhum resultado encontrado.</p>";
-        hideSpinner();
-        return;
-      }
-
-      const vistos = new Set();
-      const resultadosUnicos = data.results.filter(item => {
-        if (!vistos.has(item.id)) {
-          vistos.add(item.id);
-          return true;
+        if(!data.results || data.results.length === 0){
+            lista.innerHTML= "<p>Nenhum resultado encontrado.</p>";
+            return;
         }
-        return false;
-      });
 
-      const finalList = resultadosUnicos.slice(0, 5);
+        const unico = [];
+        const vistos = new Set();
 
-      for (const item of finalList) {
-        const duration = await buscarDuracao(item.id, tipo);
-        lista.appendChild(criarCard(item, tipo, duration));
-      }
+        for (const item of data.results){
+            if(!vistos.has(item.id)){
+                vistos.add(item.id);
+                unico.push(item);
+            }
+            if(unico.length >= 5) break;
+        }
 
-    } catch (err) {
-      lista.innerHTML = "<p>Erro ao carregar os dados.</p>";
+
+        for (const item of unico){
+            let duration = "N/A";
+
+            try{
+                const detailsUrl = 
+                tipo === "movie"
+                ? `${BASE_URL}/movie/${item.id}?api_key=${API_KEY}&language=pt-BR`
+                : `${BASE_URL}/tv/${item.id}?api_key=${API_KEY}&language=pt-BR`;
+
+                const responseDetails = await fetch(detailsUrl);
+                const details = await responseDetails.json();
+
+                if (tipo === "movie" && details.runtime) {
+                    duration = `${details.runtime} min`;
+                } else if (tipo === "tv" && details.number_of_seasons){
+                    duration = `Temporadas: ${details.number_of_seasons}`;
+                }
+            } catch(err){
+                console.error(`Erro ao encontrar a duração de ${tipo} ${item.id}:`, err);
+            }
+
+            const card = criarCard(item, tipo, duration);
+            lista.appendChild(card);
+        }
+        } catch (error){
+            console.error(error);
+            lista.innerHTML = "<p>Erro ao carregar os dados.</p>";
+        }
     }
 
-    hideSpinner();
-  }
+    if(searchForm){
+        searchForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const query = searchInput.value.trim();
+        buscarFilmes("movie", query);
+        buscarFilmes("tv", query);
+});
+    }
 
-  if (searchForm) {
-    searchForm.addEventListener("submit", e => {
-      e.preventDefault();
-      const query = searchInput.value.trim();
+await carregarGenero();
+popularSelectGenero();
+buscarFilmes("movie");
+buscarFilmes("tv");
 
-      buscarFilmes("movie", query);
-      buscarFilmes("tv", query);
-    });
-  }
 
-  await carregarGenero();
-  popularSelectGenero();
+    if(window.location.href.includes('details.html')){
+    const API_KEY = '84cd682549a0588428749eeaed02d8e7';
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const IMAGE_BASE = 'https://image.tmdb.org/t/p/w300';
 
-  buscarFilmes("movie");
-  buscarFilmes("tv");
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id')
+    const type = params.get('type');
 
+    if(!id || !type) return;
+
+     async function carregarDetalhes() {
+      try {
+        const resposta = await fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}&language=pt-BR`);
+        const dados = await resposta.json();
+
+        const img = document.querySelector('.img-movie img');
+        const titulo = document.querySelector('.informations h1');
+        const generosDiv = document.querySelector('.classification');
+        const sinopse = document.querySelector('.sinopse p');
+        const rate = document.querySelector('.details span');
+        const linkTrailer = document.querySelector('.details a');
+        const linkSite = document.querySelector('.redirection a');
+
+        if(img) img.src = dados.poster_path ? `${IMAGE_BASE_LARGE}${dados.poster_path}` : 'public/Tela Pop.png';
+        if(img) img.alt = dados.title || dados.name;
+
+        if(titulo) titulo.textContent = `${dados.title || dados.name} (${(dados.release_date || dados.first_air_date || '').slice(0,4)})`;
+
+        if(generosDiv) generosDiv.innerHTML = dados.genres.map(g => `<div>${g.name}</div>`).join('');
+
+        if(sinopse) sinopse.textContent = dados.overview || 'Sinopse não disponível.';
+
+        if(rate) rate.textContent = `${Math.round(dados.vote_average*10)}% gostaram`;
+
+
+        const respostaVideos = await fetch(`${BASE_URL}/${type}/${id}/videos?api_key=${API_KEY}&language=pt-BR`);
+        const videos = await respostaVideos.json();
+        const trailer = videos.results.find(v => v.type==="Trailer" && v.site==="YouTube");
+
+        if(linkTrailer){
+          if(trailer){
+            linkTrailer.href = `https://www.youtube.com/watch?v=${trailer.key}`;
+            linkTrailer.textContent = 'Ver trailer no YouTube';
+          } else {
+            linkTrailer.removeAttribute('href');
+            linkTrailer.textContent = 'Trailer indisponível';
+          }
+        }
+
+        if(linkSite){
+          linkSite.href = dados.homepage || `https://www.themoviedb.org/${type}/${id}`;
+          linkSite.textContent = dados.homepage ? 'Saiba mais no site oficial' : '';
+        }
+
+      } catch(err){
+        console.error("Erro ao carregar detalhes:", err);
+      }
+    }
+        
+    carregarDetalhes(id, type);
+}
+       
 });
