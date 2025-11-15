@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     card.innerHTML = `
       <div class="img-cards">
-        <img src="${item.poster_path ? IMAGE_BASE_SMALL + item.poster_path : 'public/Tela Pop.png'}" alt="${title}">
+        <img src="${item.poster_path ? IMAGE_BASE_SMALL + item.poster_path : 'public/imagem indisponivel.jpeg'}" alt="${title}">
       </div>
       <div class="card-body">
         <h3>${title} ${ano ? `(${ano})` : ""}</h3>
@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (window.location.href.includes("details.html")) {
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
-    const type = params.get("type"); // 'movie' ou 'tv'
+    const type = params.get("type");
     if (!id || !type) {
       console.warn("details.html sem id ou type na URL");
       return;
