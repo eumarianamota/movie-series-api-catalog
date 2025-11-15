@@ -27,6 +27,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 }
 
+function popularSelectGenero() {
+    if (!filterSelect) return;
+
+    filterSelect.innerHTML = `<option value="" selected disabled>Filtre por gênero</option>`;
+
+    for (const id in generosMap) {
+      const option = document.createElement("option");
+      option.value = id;
+      option.textContent = generosMap[id];
+      filterSelect.appendChild(option);
+    }
+
+    filterSelect.addEventListener("change", () => {
+      const generoId = filterSelect.value;
+      buscarFilmes("movie", "", generoId);
+      buscarFilmes("tv", "", generoId);
+    });
+  }
+
   function criarCard(item, tipo, duration = "N/A"){
     const card = document.createElement("div");
     card.classList.add("movie-card");
@@ -154,32 +173,12 @@ async function buscarFilmes(tipo, query = "", generoId = "") {
     }
 
 await carregarGenero();
-
-const filterSelect = document.getElementById("filter");
-
-if (filterSelect) {
-  filterSelect.innerHTML = ` <option value="" selected disabled>Filtre por gênero</option>
-  `;
-  for(const id in generosMap){
-    const option = document.createElement("option")
-    option.value = id;
-    option.textContent = generosMap[id];
-    filterSelect.appendChild(option);
-  }
-    filterSelect.addEventListener("change", () => {
-    const generoId = filterSelect.value;
-
-    buscarFilmes("movie", generoId);
-    buscarFilmes("tv", generoId);
-
-  });
-
-}
-
+popularSelectGenero();
 buscarFilmes("movie");
 buscarFilmes("tv");
 
-if(window.location.href.includes('details.html')){
+
+    if(window.location.href.includes('details.html')){
     const API_KEY = '84cd682549a0588428749eeaed02d8e7';
     const BASE_URL = 'https://api.themoviedb.org/3';
     const IMAGE_BASE = 'https://image.tmdb.org/t/p/w300';
@@ -238,8 +237,8 @@ if(window.location.href.includes('details.html')){
         console.error("Erro ao carregar detalhes:", err);
       }
     }
-
-    carregarDetalhes();
-
-  }
+        
+    carregarDetalhes(id, type);
+}
+       
 });
