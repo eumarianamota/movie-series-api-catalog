@@ -14,14 +14,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   let generosMap = {};
 
   async function carregarGenero() {
-    const movieGenres = await fetch(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=pt-BR`);
-    const seriesGenres = await fetch(`${BASE_URL}/genre/tv/list?api_key=${API_KEY}&language=pt-BR`);
-    
-    const movieData = await movieGenres.json();
-    const serieData = await seriesGenres.json();
+    const [movieRes, tvRes] = await Promise.all([
+        fetch(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=pt-BR`),
+        fetch(`${BASE_URL}/genre/tv/list?api_key=${API_KEY}&language=pt-BR`),
+    ]);
 
-    for (const genero of [...movieData.genres, ...serieData.genres]){
-        generosMap[genero.id] = genero.name;
+    const movieData = await movieRes.json();
+    const tvData = await tvRes.json();
+
+    for(const g of [...movieData.genres, ...tvData.genres]){
+        generosMap[g.id] = g.name;
     }
 }
 
