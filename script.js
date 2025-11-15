@@ -75,7 +75,7 @@ function popularSelectGenero() {
 
             <div class="details" > 
             <p> Tipo: ${tipo === 'movie' ? 'filme' : 'série'} </p>
-            <p>Duração: <span class = "duration">${duration}</span></p> 
+            <p>${duration}</p> 
             </div>
 
         </div>
@@ -145,10 +145,8 @@ async function buscarFilmes(tipo, query = "", generoId = "") {
 
                 if (tipo === "movie" && details.runtime) {
                     duration = `${details.runtime} min`;
-                } else if (
-                    tipo === "tv" && Array.isArray(details.episode_run_time) && details.episode_run_time.length > 0
-                ) {
-                    duration = `${details.episode_run_time[0]} min`;
+                } else if (tipo === "tv" && details.number_of_seasons){
+                    duration = `Temporadas: ${details.number_of_seasons}`;
                 }
             } catch(err){
                 console.error(`Erro ao encontrar a duração de ${tipo} ${item.id}:`, err);
