@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     card.innerHTML = `
       <div class="img-cards">
-        <img src="${item.poster_path ? IMAGE_BASE_SMALL + item.poster_path : 'public/imagem indisponivel.jpeg'}" alt="${title}">
+        <img src="${item.poster_path ? IMAGE_BASE_SMALL + item.poster_path : 'src/public/imagem indisponivel.jpeg'}" alt="${title}">
       </div>
       <div class="card-body">
         <h3>${title} ${ano ? `(${ano})` : ""}</h3>
@@ -268,7 +268,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         
         if (imgEl) {
           if (dados.poster_path) imgEl.src = `${IMAGE_BASE_LARGE}${dados.poster_path}`;
-          else imgEl.src = "public/Tela Pop.png";
+          else imgEl.src = "src/public/Tela Pop.png";
           imgEl.alt = dados.title || dados.name || "Poster";
         }
 
